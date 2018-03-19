@@ -22,8 +22,8 @@ public class Main {
     
     public Main() {
         // Webservice-Stub erzeugen
-        TVGlobal tvglobal = new TVGlobal();
-        this.ws = tvglobal.getTVGlobalSoapWebservicePort();
+        //TVGlobal tvglobal = new TVGlobal();
+        //this.ws = tvglobal.getTVGlobalSoapWebservicePort();
         
         this.fromKeyboard = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -43,7 +43,7 @@ public class Main {
         //System.out.println("   `-._______.-'       ");
         //System.out.println("   ___`. | .'___        ");
         //System.out.println("  (______|______)       ");
-        //System.out.println();
+        System.out.println();
         
         boolean quit = false;
 
@@ -91,42 +91,42 @@ public class Main {
         System.out.println("================");
         System.out.println();
 
-        Customer customer = new Customer();
+        Kunde kunde = new Kunde();
         
         System.out.print("Vorname: ");
         String vorname = this.fromKeyboard.readLine();
-        customer.setVorname(vorname);
+        kunde.setVorname(vorname);
 
         System.out.print("Nachname: ");
         String nachname = this.fromKeyboard.readLine();
-        customer.setNachname(nachname);
+        kunde.setNachname(nachname);
         
         System.out.print("Straße: ");
         String straße = this.fromKeyboard.readLine();
-        customer.setStraße(straße);
+        kunde.setStraße(straße);
         
         System.out.print("Hausnummer: ");
         String hausnummer = this.fromKeyboard.readLine();
-        customer.setHausnummer(hausnummer);
+        kunde.setHausnummer(hausnummer);
         
         System.out.print("Postleitzahl: ");
         String postleitzahl = this.fromKeyboard.readLine();
-        customer.setPostleitzahl(postleitzahl);
+        kunde.setPostleitzahl(postleitzahl);
         
         System.out.print("Ort: ");
         String ort = this.fromKeyboard.readLine();
-        customer.setOrt(ort);
+        kunde.setOrt(ort);
         
         System.out.print("Land: ");
         String land = this.fromKeyboard.readLine();
-        customer.setLand(land);
+        kunde.setLand(land);
         
         System.out.println();
         
-        Holder<Customer> hCustomer = new Holder<>(customer);
-        webservice.saveNewCustomer(hCustomer);
+        Holder<Kunde> hKunde = new Holder<>(kunde);
+        webservice.saveNewCustomer(hKunde);
 
-        System.out.println("Kunde mit der ID " + hCustomer.value.getId() + " wurde angelegt.");   
+        System.out.println("Kunde mit der ID " + hKunde.value.getId() + " wurde angelegt.");   
     }
     
     public void fahrzeugAnlegen() throws IOException, DatatypeConfigurationException {
@@ -135,26 +135,26 @@ public class Main {
         System.out.println("================");
         System.out.println();
 
-        Car car = new Car();
+        Fahrzeug fahrzeug = new Fahrzeug();
 
         System.out.print("Hersteller: ");
         String hersteller = this.fromKeyboard.readLine();
-        car.setHersteller(hersteller);
+        fahrzeug.setHersteller(hersteller);
 
         System.out.print("Modell: ");
         String modell = this.fromKeyboard.readLine();
-        car.setModell(modell);
+        fahrzeug.setModell(modell);
         
         System.out.print("Baujahr: ");
         String baujahr = this.fromKeyboard.readLine();
-        car.setBaujahr(baujahr);
+        fahrzeug.setBaujahr(baujahr);
        
         System.out.println();
 
-        Vehicle<Car> vCar = new Vehicle<>(car);
-        webservice.saveNewVehicle(hCar);
+        Vehicle<Fahrzeug> vFahrzeug = new Fahrzeug<>(fahrzeug);
+        webservice.saveNewVehicle(vFahrzeug);
 
-        System.out.println("Fahrzeug mit der ID " + hCar.value.getId() + " wurde angelegt."); 
+        System.out.println("Fahrzeug mit der ID " + vFahrzeug.value.getId() + " wurde angelegt."); 
     }
 
     private void fahrzeugAusleihen() throws IOException, DatatypeConfigurationException{
@@ -171,20 +171,20 @@ public class Main {
         
         System.out.println("Kundennummer: ");
         String kundennummer = this.fromKeyboard.readLine();
-        Leihvertrag.setKundennummer(kundennummer);
+        leihvertrag.setKundennummer(kundennummer);
         
         System.out.println("Fahrzeug-ID: ");
         String fahrzeugID = this.fromKeyboard.readLine();
-        Leihvertrag.setFahrzeugID(fahrzeugID);
+        leihvertrag.setFahrzeugID(fahrzeugID);
         
         System.out.print("Abholung am (yyyy-mm-dd): ");
         String abholung = this.fromKeyboard.readLine();
-        Leihvertrag.setAbholung(abholung);
+        leihvertrag.setAbholung(abholung);
         
         System.out.print("Rückgabe am (yyyy-mm-dd): ");
         String rueckgabe = this.fromKeyboard.readLine();
-        Leihvertrag.setRueckgabe(rueckgabe);
-        
+        leihvertrag.setRueckgabe(rueckgabe);
+       
         Leihvertrag<leihvertrag> lLeihvertrag = new Leihvertrag<>(leihvertrag);
         webservice.saveNewLeihvertrag(lLeihvertrag);
         
