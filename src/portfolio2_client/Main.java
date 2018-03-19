@@ -4,7 +4,10 @@ package portfolio2_client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
 
 
@@ -178,16 +181,20 @@ public class Main {
         leihvertrag.setFahrzeugID(fahrzeugID);
         
         System.out.print("Abholung am (yyyy-mm-dd): ");
-        String abholung = this.fromKeyboard.readLine();
-        leihvertrag.setAbholung(abholung);
+        String startDateFromStr = this.fromKeyboard.readLine();
+        //leihvertrag.setAbholung(abholung);
         
         System.out.print("Rückgabe am (yyyy-mm-dd): ");
-        String rueckgabe = this.fromKeyboard.readLine();
-        leihvertrag.setRueckgabe(rueckgabe);
-       
-        Leihvertrag<leihvertrag> lLeihvertrag = new Leihvertrag<>(leihvertrag);
-        webservice.saveNewLeihvertrag(lLeihvertrag);
+        String startDateToStr = this.fromKeyboard.readLine();
+        //leihvertrag.setRueckgabe(rueckgabe);
         
+        // Webservice aufrufen
+        DatatypeFactory dtf = DatatypeFactory.newInstance();
+        XMLGregorianCalendar startDateFrom = dtf.newXMLGregorianCalendar(startDateFromStr);
+        XMLGregorianCalendar startDateTo = dtf.newXMLGregorianCalendar(startDateToStr);
+
+        List<Leihvertrag> leihvertrag = this.ws.findProgramByStartBetween(startDateFrom, startDateTo);
+
         System.out.println("Alles klar! Leihvertrag mit der ID " +hCar.value.getID() + "wurde angelegt");
     }
 
