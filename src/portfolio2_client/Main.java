@@ -29,21 +29,21 @@ public class Main {
     }
     
     public void runMainMenu() throws IOException, DatatypeConfigurationException {
-        System.out.println("         .----. ");
-        System.out.println("      _.'__    `.   ");
-        System.out.println("  .--(#)(##)---/#\  ");
-        System.out.println(".' @          /###\    ");
-        System.out.println(":         ,   ##### ");
-        System.out.println(" `-..__.-' _.-\###/ ");
-        System.out.println("       `;_:    `"'  ");
-        System.out.println("     .'"""""`.       ");
-        System.out.println("    /,  JOE  ,\     ");
-        System.out.println("   //  COOL!  \\    ");
-        System.out.println("   -Car Sharing-     ");
-        System.out.println("   `-._______.-'       ");
-        System.out.println("   ___`. | .'___        ");
-        System.out.println("  (______|______)       ");
-        System.out.println();
+        //System.out.println("         .----. ");
+        //System.out.println("      _.'__    `.   ");
+        //System.out.println("  .--(#)(##)---/#\  ");
+        //System.out.println(".' @          /###\    ");
+        //System.out.println(":         ,   ##### ");
+        //System.out.println(" `-..__.-' _.-\###/ ");
+        //System.out.println("       `;_:    `"'  ");
+        //System.out.println("     .'"""""`.       ");
+        //System.out.println("    /,  JOE  ,\     ");
+        //System.out.println("   //  COOL!  \\    ");
+        //System.out.println("   -Car Sharing-     ");
+        //System.out.println("   `-._______.-'       ");
+        //System.out.println("   ___`. | .'___        ");
+        //System.out.println("  (______|______)       ");
+        //System.out.println();
         
         boolean quit = false;
 
@@ -197,7 +197,7 @@ public class Main {
         System.out.println("================");
         System.out.println();
         
-        System.out.println("Folgende Leihverträge sind vorhanden: " lLeihvertrag.value.getAll());
+        System.out.println("Folgende Leihverträge sind vorhanden: " + lLeihvertrag.value.getAll());
         System.out.println();
     }
 }
