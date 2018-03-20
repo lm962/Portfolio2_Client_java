@@ -1,6 +1,7 @@
 
 package portfolio2_client;
 
+//import Portfolio2.soap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,41 +12,41 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
 
 
-public class Main {
+public class Carsharing_Client {
 
-    //private final TVGlobalSoapWebservice ws;
+    //private final Portfolio2SoapWebservice ws;
     private final BufferedReader fromKeyboard;
 
     
     public static void main(String[] args)throws IOException, DatatypeConfigurationException {
-        Main main = new Main();
-        main.runMainMenu();
+        Carsharing_Client carsharing_client = new Carsharing_Client();
+        carsharing_client.runMainMenu();
         
     }
     
-    public Main() {
-        // Webservice-Stub erzeugen
-        //TVGlobal tvglobal = new TVGlobal();
-        //this.ws = tvglobal.getTVGlobalSoapWebservicePort();
+    public Carsharing_Client() {
+        Carsharing carsharing = new Carsharing();
+        this.ws = carsharing.getPortfolio2SoapWebservicePort();
         
         this.fromKeyboard = new BufferedReader(new InputStreamReader(System.in));
     }
     
     public void runMainMenu() throws IOException, DatatypeConfigurationException {
-        //System.out.println("         .----. ");
-        //System.out.println("      _.'__    `.   ");
-        //System.out.println("  .--(#)(##)---/#\  ");
-        //System.out.println(".' @          /###\    ");
-        //System.out.println(":         ,   ##### ");
-        //System.out.println(" `-..__.-' _.-\###/ ");
-        //System.out.println("       `;_:    `"'  ");
-        //System.out.println("     .'"""""`.       ");
-        //System.out.println("    /,  JOE  ,\     ");
-        //System.out.println("   //  COOL!  \\    ");
-        //System.out.println("   -Car Sharing-     ");
-        //System.out.println("   `-._______.-'       ");
-        //System.out.println("   ___`. | .'___        ");
-        //System.out.println("  (______|______)       ");
+        System.out.print(
+        "          .----. "
+        +"      _.'__    `.   "
+        +"  .--(#)(##)---/#\  "
+        +".' @          /###\    "
+        +":         ,   ##### "
+        +" `-..__.-' _.-\###/ "
+        +"       `;_:    `"'  "
+        +"     .'"""""`.       "
+        +"    /,  JOE  ,\     "
+        +"   //  COOL!  \\    "
+        +"   -Car Sharing-     "
+        +"   `-._______.-'       "
+        +"   ___`. | .'___        "
+        +"  (______|______)       ");
         System.out.println();
         
         boolean quit = false;
@@ -83,7 +84,7 @@ public class Main {
                     quit = true;
                     break;
                 default:
-                    System.out.println("Sorry, ich habe dich nicht verstanden …");
+                    System.out.println("Ihre Eingabe war Fehlerhaft! Bitte versuchen Sie es noch einmal.");
                     System.out.println();
             }
         }
@@ -127,9 +128,10 @@ public class Main {
         System.out.println();
         
         Holder<Kunde> hKunde = new Holder<>(kunde);
-        webservice.saveNewCustomer(hKunde);
+        this.ws.createKunde(hKunde);
 
-        System.out.println("Kunde mit der ID " + hKunde.value.getId() + " wurde angelegt.");   
+        System.out.println("Kunde mit der ID " + hKunde.getId() + " wurde angelegt."); 
+        System.out.println();
     }
     
     public void fahrzeugAnlegen() throws IOException, DatatypeConfigurationException {
@@ -154,10 +156,11 @@ public class Main {
        
         System.out.println();
 
-        Vehicle<Fahrzeug> vFahrzeug = new Fahrzeug<>(fahrzeug);
-        webservice.saveNewVehicle(vFahrzeug);
+        Holder<Fahrzeug> hFahrzeug = new Holder<>(fahrzeug);
+        this.ws.createFahrzeug(hFahrzeug);
 
-        System.out.println("Fahrzeug mit der ID " + vFahrzeug.value.getId() + " wurde angelegt."); 
+        System.out.println("Fahrzeug mit der ID " + hFahrzeug.getId() + " wurde angelegt."); 
+        System.out.println();
     }
 
     private void fahrzeugAusleihen() throws IOException, DatatypeConfigurationException{
@@ -167,8 +170,12 @@ public class Main {
         System.out.println();
         
         Leihvertrag leihvertrag = new Leihvertrag();
+        List<Fahrzeug> fahrzeugliste = this.ws.findAllFahrzeuge();
         
-        System.out.println("Folgende Fahrzeuge stehen zur Verfügung: " +hCar.value.getAll());
+        System.out.println("Folgende Fahrzeuge stehen zur Verfügung: ");
+        for(Fahrzeug fahrzeug : fahrzeugliste){
+            System.out.println(" "+fahrzeug.getHersteller() +" " +fahrzeug.getModell() +", Baujahr " +fahrzeug.getBaujahr() +", ID " +fahrzeug.getID());
+        }
         
         System.out.println();
         
@@ -182,20 +189,21 @@ public class Main {
         
         System.out.print("Abholung am (yyyy-mm-dd): ");
         String startDateFromStr = this.fromKeyboard.readLine();
-        //leihvertrag.setAbholung(abholung);
+        leihvertrag.setAbholung(startDateFromStr);
         
         System.out.print("Rückgabe am (yyyy-mm-dd): ");
         String startDateToStr = this.fromKeyboard.readLine();
-        //leihvertrag.setRueckgabe(rueckgabe);
+        leihvertrag.setRueckgabe(startDateToStr);
         
         // Webservice aufrufen
         DatatypeFactory dtf = DatatypeFactory.newInstance();
-        XMLGregorianCalendar startDateFrom = dtf.newXMLGregorianCalendar(startDateFromStr);
-        XMLGregorianCalendar startDateTo = dtf.newXMLGregorianCalendar(startDateToStr);
+        XMLGregorianCalendar startDateFrom = dtf.newXMLGregorianCalendar(startDateFromStr +"T" +startDateFromStr);
+        XMLGregorianCalendar startDateTo = dtf.newXMLGregorianCalendar(startDateToStr +"T" +startDateToStr);
 
-        List<Leihvertrag> leihvertrag = this.ws.findProgramByStartBetween(startDateFrom, startDateTo);
+        Holder<Leihvertrag> hLeihvertrag = new Holder(leihvertrag);
+        this.ws.createLeihvertrag(hLeihvertrag);
 
-        System.out.println("Alles klar! Leihvertrag mit der ID " +hCar.value.getID() + "wurde angelegt");
+        System.out.println("Alles klar! Leihvertrag mit der ID " +leihvertrag.getID() + "wurde angelegt");
     }
 
     private void leihverträgeAuflisten() throws IOException, DatatypeConfigurationException{
@@ -204,7 +212,21 @@ public class Main {
         System.out.println("================");
         System.out.println();
         
-        System.out.println("Folgende Leihverträge sind vorhanden: " + lLeihvertrag.value.getAll());
+        System.out.println("Folgende Leihverträge sind vorhanden: ");
         System.out.println();
+        
+        List<Leihvertrag> leihvertragliste = this.ws.findAllLeihvertraege();
+        
+        int counter = 0;
+        for(Leihvertrag leihvertrag : leihvertragliste){
+            Fahrzeug fahrzeug = ws.findFahrzeugByID(leihvertrag.getFahrzeugid().getID);
+            Kunde kunde = ws.findKundeByID(leihvertrag.getKundeid().getId());
+            
+            System.out.println(++counter +".)");
+            System.out.println(" Fahrzeug: " +fahrzeug.getHersteller() + " " + fahrzeug.getModell() +", Baujahr " +fahrzeug.getBauhjahr());
+            System.out.println(" Ausleihende Person: "+kunde.getVorname() +" " +kunde.getNachneme());
+            System.out.println(" Zeitraum: von " +leihvertrag.getAbholung() +" bis " +leihvertrag.getRueckgabe());
+            System.out.println();
+        }
     }
 }
