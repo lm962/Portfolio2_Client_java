@@ -1,7 +1,7 @@
 
 package portfolio2_client;
 
-//import Portfolio2.soap;
+import Portfolio2.soap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,7 +14,7 @@ import javax.xml.ws.Holder;
 
 public class Carsharing_Client {
 
-    //private final Portfolio2SoapWebservice ws;
+    private final Portfolio2SoapWebservice ws;
     private final BufferedReader fromKeyboard;
 
     
@@ -32,21 +32,10 @@ public class Carsharing_Client {
     }
     
     public void runMainMenu() throws IOException, DatatypeConfigurationException {
-        System.out.print(
-        "          .----. "
-        +"      _.'__    `.   "
-        +"  .--(#)(##)---/#\  "
-        +".' @          /###\    "
-        +":         ,   ##### "
-        +" `-..__.-' _.-\###/ "
-        +"       `;_:    `"'  "
-        +"     .'"""""`.       "
-        +"    /,  JOE  ,\     "
-        +"   //  COOL!  \\    "
-        +"   -Car Sharing-     "
-        +"   `-._______.-'       "
-        +"   ___`. | .'___        "
-        +"  (______|______)       ");
+        System.out.println("     ()_()      ");
+        System.out.println("     (^.^)      ");
+        System.out.println("sUBER Carsharing");
+       
         System.out.println();
         
         boolean quit = false;
@@ -84,7 +73,8 @@ public class Carsharing_Client {
                     quit = true;
                     break;
                 default:
-                    System.out.println("Ihre Eingabe war Fehlerhaft! Bitte versuchen Sie es noch einmal.");
+                    System.out.println("Ihre Eingabe war Fehlerhaft (╯°□°）╯︵ ┻━┻ ");
+                    System.out.println("Bitte versuchen Sie es noch einmal!");
                     System.out.println();
             }
         }
